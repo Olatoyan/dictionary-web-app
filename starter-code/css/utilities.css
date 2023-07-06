@@ -1,0 +1,25 @@
+.play__icon,
+.fonts__box,
+.synonym__word {
+  transition: all 0.3s;
+}
+
+.synonym__word,
+.check,
+.play__box,
+.search__icon,
+.font {
+  cursor: pointer;
+}
+
+.font:hover {
+  color: #a445ed;
+}
+
+.synonym__word:hover {
+  text-decoration: underline;
+}
+
+.input__section:focus-within {
+  border: 1px solid #a445ed;
+}

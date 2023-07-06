@@ -1,0 +1,408 @@
+@font-face {
+  font-family: inconsolata;
+  src: url(../assets/fonts/inconsolata/Inconsolata-VariableFont_wdth\wght.ttf);
+}
+
+@font-face {
+  font-family: Inter;
+  src: url(../assets/fonts/inter/Inter-VariableFont_slnt\wght.ttf);
+}
+
+@font-face {
+  font-family: Lora;
+  src: url(../assets/fonts/lora/Lora-VariableFont_wght.ttf);
+}
+
+@font-face {
+  font-family: "lora italic";
+  font-style: italic;
+  src: url(../assets/fonts/lora/Lora-Italic-VariableFont_wght.ttf);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+body {
+  font-family: Inter, sans-serif;
+  /* font-family: Lora, serif; */
+  /* font-family: lora italic, serif; */
+  /* font-family: inconsolata, monospace; */
+}
+
+.container {
+  max-width: 80rem;
+  margin: 0 auto;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5rem 0;
+}
+.dictionary__img {
+  width: 3.2rem;
+  height: 3.65rem;
+}
+
+.main__nav {
+  display: flex;
+  gap: 3rem;
+  position: relative;
+}
+
+.select__fonts {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.font__name {
+  color: #2d2d2d;
+  font-weight: 700;
+  font-size: 1.8rem;
+}
+
+.select__icon {
+  width: 1.2rem;
+  height: 0.6rem;
+}
+.fonts__box {
+  position: absolute;
+  /* top: 100%; */
+  /* bottom: -150%; */
+  top: 140%;
+  left: -10%;
+  width: 80%;
+  /* width: 100%; */
+  /* left: 100%; */
+  background-color: #fff;
+  /* box-shadow: 0 1rem 1.5rem 1.5rem rgba(0, 0, 0, 0.2); */
+  box-shadow: 0 0.5rem 3rem rgba(0, 0, 0, 0.2);
+  padding: 2rem 0;
+  border-radius: 1rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+
+  opacity: 0;
+  visibility: hidden;
+}
+
+.font {
+  padding: 0 2.4rem;
+  font-weight: 700;
+  font-size: 1.8rem;
+  line-height: 2.4rem;
+}
+.sans-serif {
+  font-family: Inter, sans-serif;
+}
+
+.serif {
+  font-family: Lora, serif;
+}
+.mono {
+  font-family: inconsolata, monospace;
+}
+
+.divider {
+  width: 0.2rem;
+  height: 3.2rem;
+  background: #e9e9e9;
+}
+
+.confirm__box {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+.check__box {
+}
+.select__plan {
+}
+
+.check {
+}
+
+.check__box {
+  display: flex;
+  align-items: center;
+}
+
+.checked__text {
+  display: none;
+  font-size: 1.2rem;
+  align-self: center;
+  justify-self: center;
+  text-align: center;
+  color: #d61b1b;
+}
+
+.check {
+  display: block;
+  background-color: #757575;
+  width: 4rem;
+  height: 2rem;
+  border-radius: 3rem;
+  position: relative;
+}
+
+.check::before {
+  position: absolute;
+  content: "";
+  background-color: #a445ed;
+  background-color: #fff;
+  width: 1.7rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  margin: 0.2rem;
+  transition: all 0.5s;
+}
+.select__plan:checked + .check {
+  background-color: #a445ed;
+}
+
+.select__plan:checked + .check::before {
+  background-color: #fff;
+
+  transform: translateX(1.9rem);
+}
+.select__plan {
+  display: none;
+}
+
+.monthly,
+.yearly {
+  color: #9699ab;
+}
+.active-span {
+  color: #003c85;
+}
+
+.moon__icon {
+  /* fill: #a445ed;
+  color: #a445ed;
+  stroke: #a445ed; */
+  stroke: #838383;
+}
+
+/* INPUT SECTION */
+.input__section {
+  /* width: 100%; */
+  display: flex;
+  align-items: center;
+  background: #f4f4f4;
+  border-radius: 1.6rem;
+  overflow: hidden;
+  padding: 0 2.4rem;
+}
+.input__field {
+  width: 100%;
+  height: 6.4rem;
+  background: #f4f4f4;
+  /* border-radius: 1.6rem; */
+
+  border: 0;
+  outline: 0;
+}
+
+.search__icon {
+  width: 1.555rem;
+  height: 1.555rem;
+}
+
+.error__input {
+  font-size: 2rem;
+  padding-top: 1rem;
+  color: #ff5252;
+  display: none;
+}
+
+/* DISPLAY SECTION */
+
+.display__section {
+  display: flex;
+  flex-direction: column;
+  padding: 4.5rem 0;
+  gap: 4rem;
+}
+.heading__box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.main__word__box {
+  display: flex;
+  gap: 0.8rem;
+  flex-direction: column;
+}
+.main__word {
+  font-size: 6.4rem;
+  font-weight: 700;
+}
+.transcribed__word {
+  font-size: 2.4rem;
+  font-weight: 400;
+  color: #a445ed;
+}
+
+.play__box {
+  width: 7.5rem;
+  height: 7.5rem;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.play__icon {
+  fill: #a445ed;
+  /* overflow: hidden; */
+}
+
+.play__icon:hover {
+  fill: #fff;
+  /* fill: #8f19e8; */
+  background-color: #8f19e8;
+}
+.part__of__speech__box {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+.noun__box,
+.verb__box {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+.part__of__speech {
+  font-size: 2.4rem;
+  font-style: italic;
+  font-weight: 700;
+}
+
+.rectangle__line {
+  height: 0.2rem;
+  width: 100%;
+  background-color: #e9e9e9;
+}
+.noun__meaning {
+}
+
+.meaning__box {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+.meaning__word {
+  font-size: 2rem;
+  color: #757575;
+}
+
+.meaning__list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.3rem;
+  list-style: none;
+}
+
+.definitions {
+  color: #2d2d2d;
+  font-size: 1.8rem;
+  line-height: 2.4rem;
+  position: relative;
+  margin-left: 3.5rem;
+}
+
+.definitions::before {
+  content: "";
+  display: block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 5px;
+  background-color: #8f19e8;
+  position: absolute;
+  left: -2rem;
+  top: 1rem;
+}
+
+.synonym__box {
+  margin-top: 2.4rem;
+  font-size: 2rem;
+}
+.synonym {
+  color: #757575;
+  font-weight: 400;
+}
+
+.synonym__word {
+  color: #a445ed;
+  font-weight: 700;
+}
+
+.definition__expression {
+  font-size: 1.8rem;
+  color: #757575;
+  margin-left: 3.5rem;
+  line-height: 2.4rem;
+}
+
+.last__divider {
+  width: 100%;
+  height: 0.2rem;
+  background-color: #e9e9e9;
+}
+.source__box {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 1.4rem;
+  text-decoration-line: underline;
+}
+.source__word {
+  color: #757575;
+}
+.source__link {
+  margin-left: 1.7rem;
+  color: #2d2d2d;
+}
+
+.source__icon {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.error__section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+
+  margin-top: 13.2rem;
+}
+.sad {
+  margin-bottom: 2rem;
+  width: 6.4rem;
+  height: 6.4rem;
+}
+.error__heading {
+  font-size: 2rem;
+  color: #2d2d2d;
+  font-weight: 700;
+}
+.error__message {
+  font-size: 1.8rem;
+  line-height: 2.4rem;
+  font-weight: 400;
+  text-align: center;
+}
+
+.error__section {
+  display: none;
+}
