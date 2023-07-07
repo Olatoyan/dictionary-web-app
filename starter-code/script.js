@@ -12,7 +12,16 @@ const greyText = document.querySelectorAll(".grey__text");
 const inputSection = document.querySelector(".input__section");
 const meaningBox = document.querySelector(".part__of__speech__box");
 const inputError = document.querySelector(".error__input");
+const spinner = document.querySelector(".loading__box");
 
+const displaySpinner = function () {
+  displaySection.innerHTML = "";
+  errorSection.innerHTML = "";
+  spinner.style.display = "flex";
+};
+const closeSpinner = function () {
+  spinner.style.display = "none";
+};
 const displayFonts = function () {
   fontsBox.style.opacity = "1";
   fontsBox.style.visibility = "visible";
@@ -75,7 +84,7 @@ const updateTheme = function () {
   const moonLogo = document.querySelector(".moon__icon");
   const fontsBox = document.querySelector(".fonts__box ");
 
-  if (this.checked) {
+  if (toggleTheme.checked) {
     console.log("Checkbox is checked");
     body.style.backgroundColor = "#050505";
     darkText.forEach((text) => (text.style.color = "#fff"));
@@ -114,7 +123,7 @@ const renderWord = function (data, displaySection) {
                 data.phonetic ? data.phonetic : ""
               }</p>
             </div>
-            <div class="play__box">
+            <div class="play__box ${audio ? audio !== undefined : "hidden"}"">
               <svg
                 class="play__icon"
                 xmlns="http://www.w3.org/2000/svg"
@@ -125,9 +134,7 @@ const renderWord = function (data, displaySection) {
                   <path d="M29 27v21l21-10.5z" />
                 </g>
               </svg>
-              <audio
-              src="${audio.audio}"
-            ></audio>
+              ${audio ? `<audio src="${audio.audio}"></audio>` : ""}
             </div>
           </div>        
           </div>
@@ -252,6 +259,7 @@ const renderError = function (data) {
 
 const searchWord = async function (word) {
   try {
+    displaySpinner();
     const res = await fetch(
       `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`
     );
@@ -264,10 +272,11 @@ const searchWord = async function (word) {
     // console.log(firstAudioData);
     displaySection.innerHTML = "";
     errorSection.innerHTML = "";
-
     renderWord(data[0], displaySection);
     renderMeaning(data[0].meanings);
     renderSourceUrl(data[0].sourceUrls);
+    closeSpinner();
+    updateTheme();
   } catch (err) {
     // renderError(data);
     console.log(err);
