@@ -32,29 +32,12 @@ const closeFonts = function (e) {
   fontsBox.style.visibility = "hidden";
 };
 
-body.addEventListener("click", function (e) {
-  if (e.target.closest(".fonts__box")) return;
-  if (!e.target.closest(".select__fonts") && !e.target.closest(".font__name")) {
-    fontsBox.style.opacity = "0";
-    fontsBox.style.visibility = "hidden";
-  }
-});
-
-// document.addEventListener("click", function (e) {
-//   const clickedElement = e.target;
-//   if (!fontsBox.contains(clickedElement)) {
-//     closeFonts();
-//   }
-// });
-
 const toggleFonts = function (e) {
   e.stopPropagation();
-  console.log(e.target);
   if (e.target.classList.contains("sans-serif")) {
     const name = e.target.textContent;
     fontName.textContent = name;
     body.style.fontFamily = "Inter, sans-serif";
-    console.log("hi");
     closeFonts();
   }
   if (e.target.classList.contains("serif")) {
@@ -71,10 +54,6 @@ const toggleFonts = function (e) {
   }
 };
 
-fontsBox.addEventListener("click", toggleFonts);
-
-selectFonts.addEventListener("click", displayFonts);
-
 const updateTheme = function () {
   const body = document.querySelector("body");
   const darkText = document.querySelectorAll(".black__text");
@@ -85,7 +64,6 @@ const updateTheme = function () {
   const fontsBox = document.querySelector(".fonts__box ");
 
   if (toggleTheme.checked) {
-    console.log("Checkbox is checked");
     body.style.backgroundColor = "#050505";
     darkText.forEach((text) => (text.style.color = "#fff"));
     inputBgColor.forEach((bg) => (bg.style.backgroundColor = "#1f1f1f"));
@@ -94,10 +72,7 @@ const updateTheme = function () {
     moonLogo.style.stroke = "#a445ed";
     fontsBox.style.backgroundColor = "#1f1f1f";
     fontsBox.style.boxShadow = "0 0.5rem 3rem 0 #a445ed";
-
-    // Perform actions when the checkbox is checked
   } else {
-    console.log("Checkbox is unchecked");
     body.style.backgroundColor = "#fff";
     darkText.forEach((text) => (text.style.color = "#2d2d2d"));
     inputBgColor.forEach((bg) => (bg.style.backgroundColor = "#f4f4f4"));
@@ -109,11 +84,8 @@ const updateTheme = function () {
   }
 };
 
-toggleTheme.addEventListener("change", updateTheme);
-
 const renderWord = function (data, displaySection) {
   const audio = data.phonetics.find((element) => element.audio !== "");
-  console.log(audio);
 
   const html = `
           <div class="heading__box">
@@ -143,17 +115,14 @@ const renderWord = function (data, displaySection) {
   displaySection.insertAdjacentHTML("afterbegin", html);
   const playAudio = document.querySelector(".play__box");
   const sound = document.querySelector("audio");
-  console.log(playAudio);
   playAudio.addEventListener("click", function () {
     sound.play();
-    console.log("hi");
   });
 };
 
 const renderMeaning = function (data) {
   let html = "";
   data.forEach((item) => {
-    console.log(item);
     let definitionsHtml = ``;
     item.definitions
       .map((definition) => {
@@ -209,14 +178,7 @@ const renderMeaning = function (data) {
 
   `;
   });
-  // console.log(html);
-  // console.log(data);
   displaySection.insertAdjacentHTML("beforeend", html);
-  // console.log(data.meanings.forEach((msg) => msg));
-  // data.meanings.forEach((msg) => console.log(msg));
-  //   <p class="definition__expression grey__text">
-  //   “Keyboarding is the part of this job I hate the most.”
-  // </p>
 };
 
 const renderSourceUrl = function (data) {
@@ -241,7 +203,6 @@ const renderSourceUrl = function (data) {
   `;
 
   displaySection.insertAdjacentHTML("beforeend", html);
-  console.log(data);
 };
 
 const renderError = function (data) {
@@ -253,7 +214,6 @@ const renderError = function (data) {
       </span>
   `;
 
-  console.log(html);
   errorSection.insertAdjacentHTML("beforeend", html);
 };
 
@@ -264,12 +224,9 @@ const searchWord = async function (word) {
       `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`
     );
     const data = await res.json();
-    console.log(data[0]);
-    console.log(data);
     if (!res.ok) {
       throw new Error(JSON.stringify(data));
     }
-    // console.log(firstAudioData);
     displaySection.innerHTML = "";
     errorSection.innerHTML = "";
     renderWord(data[0], displaySection);
@@ -278,8 +235,9 @@ const searchWord = async function (word) {
     closeSpinner();
     updateTheme();
   } catch (err) {
-    // renderError(data);
     console.log(err);
+    closeSpinner();
+
     const data = JSON.parse(err.message);
     displaySection.innerHTML = "";
     errorSection.innerHTML = "";
@@ -289,9 +247,9 @@ const searchWord = async function (word) {
     renderError(data);
   }
 };
+
 inputSection.addEventListener("submit", (e) => {
   e.preventDefault();
-  console.log("hi");
   if (inputField.value.trim() === "") {
     inputError.style.display = "block";
     inputSection.style.border = "1px solid #ef5252";
@@ -302,8 +260,15 @@ inputSection.addEventListener("submit", (e) => {
   }
 });
 
-// searchWord();
-// playAudio.addEventListener("click", async function () {
-//   await audio.play();
-//   console.log("hi");
-// });
+body.addEventListener("click", function (e) {
+  if (e.target.closest(".fonts__box")) return;
+  if (!e.target.closest(".select__fonts") && !e.target.closest(".font__name")) {
+    fontsBox.style.opacity = "0";
+    fontsBox.style.visibility = "hidden";
+  }
+});
+
+fontsBox.addEventListener("click", toggleFonts);
+
+selectFonts.addEventListener("click", displayFonts);
+toggleTheme.addEventListener("change", updateTheme);
