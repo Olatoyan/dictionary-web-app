@@ -8,7 +8,8 @@
 .check,
 .play__box,
 .search__icon,
-.font {
+.font,
+.select__fonts {
   cursor: pointer;
 }
 
@@ -22,4 +23,34 @@
 
 .input__section:focus-within {
   border: 1px solid #a445ed;
+}
+
+.black__bg__color {
+  color: #fff;
+}
+
+.black__text {
+  color: #2d2d2d;
+}
+
+.grey__text {
+  color: #757575;
+}
+
+.input__bg__color {
+  background-color: #f4f4f4;
+}
+
+.divding__line {
+  background-color: #e9e9e9;
+}
+
+body,
+.black__text,
+.check::before,
+.input__bg__color,
+.divding__line,
+.input__field::placeholder,
+.moon__icon {
+  transition: all 0.5s;
 }
