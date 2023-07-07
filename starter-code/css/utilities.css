@@ -51,6 +51,7 @@ body,
 .input__bg__color,
 .divding__line,
 .input__field::placeholder,
-.moon__icon {
+.moon__icon,
+.fonts__box {
   transition: all 0.5s;
 }

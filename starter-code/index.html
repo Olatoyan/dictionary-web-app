@@ -10,6 +10,12 @@
       sizes="32x32"
       href="./assets/images/favicon-32x32.png"
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&family=Inter:wght@400;700&family=Lora:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
 
     <title>Frontend Mentor | Dictionary web app</title>
     <link rel="stylesheet" href="css/style.css" />
@@ -26,7 +32,7 @@
         />
         <nav class="main__nav">
           <div class="select__fonts">
-            <span class="font__name black__text">San Serif</span>
+            <span class="font__name black__text">Sans Serif</span>
             <img
               src="assets/images/icon-arrow-down.svg"
               alt="select icon"
@@ -145,17 +151,19 @@
         <div class="last__divider divding__line"></div>
         <div class="source__box">
           <span class="source__word grey__text">Source</span>
-          <a
-            href="https://en.wiktionary.org/wiki/keyboard"
-            class="source__link black__text"
-            target="_blank"
-            >https://en.wiktionary.org/wiki/keyboard</a
-          >
-          <img
-            src="assets/images/icon-new-window.svg"
-            alt="new window"
-            class="source__icon"
-          />
+          <div class="link__box">
+            <a
+              href="https://en.wiktionary.org/wiki/keyboard"
+              class="source__link black__text"
+              target="_blank"
+              >https://en.wiktionary.org/wiki/keyboard</a
+            >
+            <img
+              src="assets/images/icon-new-window.svg"
+              alt="new window"
+              class="source__icon"
+            />
+          </div>
         </div>
       </section>
       <section class="error__section">

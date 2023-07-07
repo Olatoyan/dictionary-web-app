@@ -1,21 +1,70 @@
 "use strict";
+const body = document.querySelector("body");
 
 const displaySection = document.querySelector(".display__section");
-const selectFonts = document.querySelector(".select__icon");
+const errorSection = document.querySelector(".error__section");
+const selectFonts = document.querySelector(".select__fonts");
 const fontsBox = document.querySelector(".fonts__box ");
+const fontName = document.querySelector(".font__name");
 const toggleTheme = document.getElementById("check");
 const inputField = document.querySelector(".input__field");
-
 const greyText = document.querySelectorAll(".grey__text");
 const inputSection = document.querySelector(".input__section");
-// const playAudio = document.querySelector(".play__box");
-// const audio = document.querySelector("audio");
 const meaningBox = document.querySelector(".part__of__speech__box");
-// console.log(dividingLine);
-// console.log(greyText);
-// console.log(darkText);
+const inputError = document.querySelector(".error__input");
 
-// console.log(toggleTheme);
+const displayFonts = function () {
+  fontsBox.style.opacity = "1";
+  fontsBox.style.visibility = "visible";
+};
+
+const closeFonts = function (e) {
+  fontsBox.style.opacity = "0";
+  fontsBox.style.visibility = "hidden";
+};
+
+body.addEventListener("click", function (e) {
+  if (e.target.closest(".fonts__box")) return;
+  if (!e.target.closest(".select__fonts") && !e.target.closest(".font__name")) {
+    fontsBox.style.opacity = "0";
+    fontsBox.style.visibility = "hidden";
+  }
+});
+
+// document.addEventListener("click", function (e) {
+//   const clickedElement = e.target;
+//   if (!fontsBox.contains(clickedElement)) {
+//     closeFonts();
+//   }
+// });
+
+const toggleFonts = function (e) {
+  e.stopPropagation();
+  console.log(e.target);
+  if (e.target.classList.contains("sans-serif")) {
+    const name = e.target.textContent;
+    fontName.textContent = name;
+    body.style.fontFamily = "Inter, sans-serif";
+    console.log("hi");
+    closeFonts();
+  }
+  if (e.target.classList.contains("serif")) {
+    const name = e.target.textContent;
+    fontName.textContent = name;
+    body.style.fontFamily = "Lora, serif";
+    closeFonts();
+  }
+  if (e.target.classList.contains("mono")) {
+    const name = e.target.textContent;
+    fontName.textContent = name;
+    body.style.fontFamily = "inconsolata, monospace";
+    closeFonts();
+  }
+};
+
+fontsBox.addEventListener("click", toggleFonts);
+
+selectFonts.addEventListener("click", displayFonts);
 
 const updateTheme = function () {
   const body = document.querySelector("body");
@@ -24,6 +73,7 @@ const updateTheme = function () {
   const dividingLine = document.querySelectorAll(".divding__line");
   const inputField = document.querySelector(".input__field");
   const moonLogo = document.querySelector(".moon__icon");
+  const fontsBox = document.querySelector(".fonts__box ");
 
   if (this.checked) {
     console.log("Checkbox is checked");
@@ -33,6 +83,8 @@ const updateTheme = function () {
     dividingLine.forEach((line) => (line.style.backgroundColor = "#3a3a3a"));
     inputField.style.setProperty("--placeholder-color", "#fff");
     moonLogo.style.stroke = "#a445ed";
+    fontsBox.style.backgroundColor = "#1f1f1f";
+    fontsBox.style.boxShadow = "0 0.5rem 3rem 0 #a445ed";
 
     // Perform actions when the checkbox is checked
   } else {
@@ -43,6 +95,8 @@ const updateTheme = function () {
     dividingLine.forEach((line) => (line.style.backgroundColor = "#e9e9e9"));
     inputField.style.setProperty("--placeholder-color", "#2d2d2d");
     moonLogo.style.stroke = "#838383";
+    fontsBox.style.backgroundColor = "#fff";
+    fontsBox.style.boxShadow = " 0 0.5rem 3rem rgba(0, 0, 0, 0.2)";
   }
 };
 
@@ -145,6 +199,7 @@ const renderMeaning = function (data) {
              ${synonymsHtml}
              ${antonymsHtml}
           </div>
+
   `;
   });
   // console.log(html);
@@ -157,22 +212,85 @@ const renderMeaning = function (data) {
   // </p>
 };
 
-const searchWord = async function (word) {
-  const res = await fetch(
-    `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`
-  );
-  const data = await res.json();
-  console.log(data[0]);
+const renderSourceUrl = function (data) {
+  const html = `
+    <div class="last__divider divding__line"></div>
+      <div class="source__box">
+        <span class="source__word grey__text">Source</span>
+        <div class="link__box">
+        <a
+          href="${data[0]}"
+          class="source__link black__text"
+          target="_blank"
+          >${data[0]}</a
+        >
+        <img
+          src="assets/images/icon-new-window.svg"
+          alt="new window"
+          class="source__icon"
+        />
+    </div>
+    </div>
+  `;
 
-  // console.log(firstAudioData);
-  displaySection.innerHTML = "";
-  renderWord(data[0], displaySection);
-  renderMeaning(data[0].meanings);
+  displaySection.insertAdjacentHTML("beforeend", html);
+  console.log(data);
+};
+
+const renderError = function (data) {
+  const html = `
+      <img src="assets/images/unnamed.png" alt="sad image" class="sad" />
+      <h2 class="error__heading black__text">${data.title}</h2>
+      <span class="error__message grey__text">
+       ${data.message} ${data.resolution}
+      </span>
+  `;
+
+  console.log(html);
+  errorSection.insertAdjacentHTML("beforeend", html);
+};
+
+const searchWord = async function (word) {
+  try {
+    const res = await fetch(
+      `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`
+    );
+    const data = await res.json();
+    console.log(data[0]);
+    console.log(data);
+    if (!res.ok) {
+      throw new Error(JSON.stringify(data));
+    }
+    // console.log(firstAudioData);
+    displaySection.innerHTML = "";
+    errorSection.innerHTML = "";
+
+    renderWord(data[0], displaySection);
+    renderMeaning(data[0].meanings);
+    renderSourceUrl(data[0].sourceUrls);
+  } catch (err) {
+    // renderError(data);
+    console.log(err);
+    const data = JSON.parse(err.message);
+    displaySection.innerHTML = "";
+    errorSection.innerHTML = "";
+
+    errorSection.style.display = "flex";
+
+    renderError(data);
+  }
 };
 inputSection.addEventListener("submit", (e) => {
   e.preventDefault();
   console.log("hi");
-  searchWord(inputField.value.trim());
+  if (inputField.value.trim() === "") {
+    inputError.style.display = "block";
+    inputSection.style.border = "1px solid #ef5252";
+  } else {
+    inputError.style.display = "none";
+    inputSection.style.border = "none";
+    searchWord(inputField.value.trim());
+  }
 });
 
 // searchWord();
