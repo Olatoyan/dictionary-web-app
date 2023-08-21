@@ -1,6 +1,6 @@
 "use strict";
-const body = document.querySelector("body");
 
+const body = document.querySelector("body");
 const displaySection = document.querySelector(".display__section");
 const errorSection = document.querySelector(".error__section");
 const selectFonts = document.querySelector(".select__fonts");
@@ -13,6 +13,7 @@ const inputSection = document.querySelector(".input__section");
 const meaningBox = document.querySelector(".part__of__speech__box");
 const inputError = document.querySelector(".error__input");
 const spinner = document.querySelector(".loading__box");
+const searchIcon = document.querySelector(".search__icon");
 
 const displaySpinner = function () {
   displaySection.innerHTML = "";
@@ -179,6 +180,17 @@ const renderMeaning = function (data) {
   `;
   });
   displaySection.insertAdjacentHTML("beforeend", html);
+  getSynonym();
+};
+
+const getSynonym = async function () {
+  const synonym = await document.querySelectorAll(".synonym__word");
+  synonym.forEach((syn) => {
+    syn.addEventListener("click", function () {
+      searchWord(syn.textContent);
+      inputField.value = syn.textContent;
+    });
+  });
 };
 
 const renderSourceUrl = function (data) {
@@ -227,6 +239,7 @@ const searchWord = async function (word) {
     if (!res.ok) {
       throw new Error(JSON.stringify(data));
     }
+
     displaySection.innerHTML = "";
     errorSection.innerHTML = "";
     renderWord(data[0], displaySection);
@@ -266,6 +279,10 @@ body.addEventListener("click", function (e) {
     fontsBox.style.opacity = "0";
     fontsBox.style.visibility = "hidden";
   }
+});
+
+searchIcon.addEventListener("click", () => {
+  searchWord(inputField.value.trim());
 });
 
 fontsBox.addEventListener("click", toggleFonts);
